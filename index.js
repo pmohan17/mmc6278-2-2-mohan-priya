@@ -13,8 +13,9 @@ program
   .description("Retrieves a random quote")
   .action(async () => {
     //need to red file to get quotes and authors.
-    const quotes = await fs.readFile(QUOTE_FILE, "utf-8");
+    
     try {
+      const quotes = await fs.readFile(QUOTE_FILE, "utf-8");
        //Format linebreak
       const lineBreak = quotes.split("\n");
       //randomly select a quote 
@@ -25,6 +26,7 @@ program
       //Use chalk
       console.log(chalk.white.italic(quote));
       console.log(chalk.blue.bold(author));
+      
     } catch (err) {
       console.log(err);
     }
@@ -36,17 +38,19 @@ program
   .description("adds a quote to the quote file")
   .action(async (quote, author) => {
     try {
-      const addQuote = `${quote} | ${author || "Anonymous"} \n`
-      await fs.appendFile(QUOTE_FILE, addQuote, 'utf-8')
+      const addedQuote = `${quote} | ${author || 'Anonymous'}\n`
+      await fs.appendFile(QUOTE_FILE, addedQuote, 'utf-8')
 
       .then (() => {
+      console.log (addedQuote)
       console.log(chalk.blue.bold("Congrats! Your quote is added."))
     })
 
     } catch (err) {
-      console.log(err)
+      console.log('err')
     }
   });
+ 
     
     // If no author is provided,
     // save the author as "Anonymous".
