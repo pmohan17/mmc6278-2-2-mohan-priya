@@ -12,16 +12,42 @@ program
   .command("getQuote")
   .description("Retrieves a random quote")
   .action(async () => {
-    // TODO: Pull a random quote from the quotes.txt file
-    // console log the quote and author
-    // You may style the text with chalk as you wish
+    //need to red file to get quotes and authors.
+    const quotes = await fs.readFile(QUOTE_FILE, "utf-8");
+    try {
+       //Format linebreak
+      const lineBreak = quotes.split("\n");
+      //randomly select a quote 
+      const pickQuote = Math.floor(Math.random() * lineBreak.length);
+      const randomSelect = lineBreak[pickQuote];
+      //Split quote and author
+      const [quote, author] = randomSelect.split("|");
+      //Use chalk
+      console.log(chalk.white.italic(quote));
+      console.log(chalk.blue.bold(author));
+    } catch (err) {
+      console.log(err);
+    }
   });
+
 
 program
   .command("addQuote <quote> [author]")
   .description("adds a quote to the quote file")
   .action(async (quote, author) => {
-    // TODO: Add the quote and author to the quotes.txt file
+    try {
+      const addQuote = `${quote} | ${author || "Anonymous"} \n`
+      await fs.appendFile(QUOTE_FILE, addQuote, 'utf-8')
+
+      .then (() => {
+      console.log(chalk.blue.bold("Congrats! Your quote is added."))
+    })
+
+    } catch (err) {
+      console.log(err)
+    }
+  });
+    
     // If no author is provided,
     // save the author as "Anonymous".
     // After the quote/author is saved,
@@ -29,6 +55,5 @@ program
     // You may style the text with chalk as you wish
     // HINT: You can store both author and quote on the same line using
     // a separator like pipe | and then using .split() when retrieving
-  });
 
 program.parse();
