@@ -38,11 +38,11 @@ program
   .description("adds a quote to the quote file")
   .action(async (quote, author) => {
     try {
-      const addedQuote = `${quote} | ${author || 'Anonymous'}\n`
-      await fs.appendFile(QUOTE_FILE, addedQuote, 'utf-8')
+      const newQuote = `${quote} | ${author || 'Anonymous'}\n`
+      await fs.appendFile(QUOTE_FILE, newQuote, 'utf-8')
 
       .then (() => {
-      console.log (addedQuote)
+      console.log (newQuote)
       console.log(chalk.blue.bold("Congrats! Your quote is added."))
     })
 
